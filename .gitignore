@@ -1,0 +1,62 @@
+# Production data - never commit. Contains part numbers, customer-identifiable
+# family names, work order numbers and actual job durations.
+*.xlsx
+*.parquet
+*.csv
+
+# Analysis outputs (regenerated from the extract). The per-operation
+# workbooks moved out of the root on 2026-08-28 - 188 of the 214 entries
+# that used to sit there - into `outputs/`, renamed outputs_run_pcs_hr/ on
+# 2026-09-10 so the folder names its one run type. BOTH names are listed,
+# and the patterns are kept as well as the folders: a gitignore pattern with
+# no slash matches at any depth, so they cover both, and a stray workbook
+# written to the root - or to the old folder - by an older copy of a script
+# is still ignored rather than committed.
+outputs_run_pcs_hr/
+outputs/
+FTS_*_PARTS.xlsx
+FTS_*_FAMILY.xlsx
+FTS_UPDATE_LIST.xlsx
+
+# Superseded extracts, the queries that made them, and scope_changes.md.
+# Local record only, and the WHOLE FOLDER is unpublishable, not just the
+# parquets: scope_changes.md names families in plain prose. The identifier
+# sweep in stage_for_github.py walks subfolders since 2026-09-02, but this
+# folder is never staged in the first place - it is named in that script's
+# SKIP_DIRS - so this line is what keeps it out, not the sweep.
+archive/
+
+# Local staging folder for the public repo
+github_ready/
+
+# Presentation material - prose, so the identifier sweep cannot help here.
+# Names customers and quotes real durations throughout. Internal only.
+H0_Presentation_*.md
+H0_Presentation_*.pptx
+
+# Review tool. Self-contained and read-only - it reads the workbooks and the
+# parquet and writes nothing - so deleting the folder and this line removes
+# every trace of it. Not published from THIS repo: the guided version has its
+# own, staged by stage_streamlit_for_github.py.
+streamlit_app/
+github_ready_streamlit_app/
+
+# IDE and tooling
+.idea/
+.vscode/
+.claude/
+*.iml
+*.swp
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,26 @@
+# The pipeline's dependencies. The viewer keeps its own list in
+# factory_time_statistics_streamlit_app/requirements.txt, which adds streamlit.
+#
+# Floors, not pins. The version after each line is the one every figure in the
+# README was produced on: the `fts` environment, 2026-09-11, Python 3.12.14.
+# Releases between the floor and that version are expected to work but are
+# untested. requirements-lock.txt pins every package, dependencies included,
+# at exactly those versions - install from it to reproduce a run.
+#
+# This list is complete on its own: `fts` was built from nothing but Python and
+# this file, and run_all.py passed on it. That is how the last two lines were
+# found - the older environments had both for other reasons, which hid that
+# this list lacked them.
+pandas>=2.0          # 3.0.5
+numpy>=1.24          # 2.5.3
+scipy>=1.11          # 1.18.1
+pyarrow>=14          # 25.0.1   the parquet cache
+openpyxl>=3.1        # 3.1.5    reads the extract, writes every workbook
+# run_all.py re-executes fts_approach.ipynb through nbclient rather than the
+# jupyter CLI - run_notebook() says why - on the python3 kernel.
+nbformat>=5.7        # 5.11.1
+nbclient>=0.8        # 0.11.0
+ipykernel>=6.0       # 7.3.0
+matplotlib>=3.7      # 3.11.1   the notebook's charts - only the notebook imports it
+jinja2>=3.1.5        # 3.1.6    pandas' .style needs it (the notebook's hours table);
+                     #          3.1.5 is the floor pandas 3 itself enforces
