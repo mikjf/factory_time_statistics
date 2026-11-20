@@ -548,8 +548,11 @@ def update_list_sheets():
     print(f"  nothing testable                           : {noth:>7,}")
     claim(f"{n_ops:,} operations", FINDINGS, "operations analysed",
           ("## Status", "**"))
+    # THE ANCHOR CARRIES THE WORD BEFORE IT. "Of those, " alone also starts a
+    # table row further down the notes, so the anchor matched twice and --fix
+    # refused to guess - the count sat stale for an extract. Was: "Of those, ".
     claim(f"Of those, {acting:,} produced", FINDINGS,
-          "operations with an action", "Of those, ")
+          "operations with an action", "both. Of those, ")
     claim(f"Tested and held: {held:,}", FINDINGS,
           "operations tested that held", "Tested and held: ")
     claim(f"Nothing testable: {noth:,}", FINDINGS,
@@ -641,6 +644,13 @@ def module_docstrings():
     print("  marginal load as % of RUN (from 04_MultiLoadGap):")
     for _, g in gap.sort_values("OPERATION").iterrows():
         print(f"     {g.OPERATION:22s} {g.MARGINAL_AS_PCT_OF_RUN:>7.0%}")
+        # NO FIT, NO CLAIM. An operation with too few multi-load work orders
+        # gets an empty fit in 04_MultiLoadGap; claiming it asked the notes to
+        # contain "nan%", which no sentence can, so the check failed on every
+        # run. It is printed above and left out, as below for the operation
+        # the notes already say cannot be fitted.
+        if pd.isna(g.MARGINAL_AS_PCT_OF_RUN):
+            continue
         # S LAVAGGIO US is deliberately NOT claimed: both prose copies say it
         # has too few work orders to support a fit, and quote no percentage.
         # fts_load_view.py DID quote a percentage until 2026-09-10 - the note there says
